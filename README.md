@@ -54,19 +54,4 @@ The projects range from basic DOM manipulation to full-fledged interactive appli
 Each experiment was executed and tested locally in a browser or Python environment. Screenshots and code snippets are included throughout the report for reference and verification.
 
 
-| No. | Date           | Title                                                                 |
-|-----|----------------|------------------------------------------------------------------------|
-| 1   | 30 Jan 2025    | Restaurant Project using HTML & CSS                                    |
-| 2   | 06 Feb 2025    | JavaScript Basics and Output Handling                                  |
-| 3   | 13 Feb 2025    | Calculator, To-Do List, Registration Form                              |
-| 4   | 17 Feb 2025    | Personal Portfolio Website                                             |
-| 5   | 23 Feb 2025    | Rock Paper Scissors Game, Movies & Books Library, Weather Portal       |
-| 6   | 27 Feb 2025    | Quote Generator, List Manager                                          |
-| 7   | 03 Mar 2025    | Pattern Printing                                                       |
-| 8   | 17 Mar 2025    | E-Commerce Website                                                     |
-| 9   | 20 Mar 2025    | DOM Implementation Examples                                            |
-| 10  | 27 Mar 2025    | Basics of Python                                                       |
-| 11  | 03 Apr 2025    | Basic Flask Programs                                                   |
-| 12  | 07 Apr 2025    | Rendering HTML with Flask                    
-
 > 📄 For full code and documentation, refer to the attached lab file.
