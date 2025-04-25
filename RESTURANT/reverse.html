@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse String and Palindrome Check</title>
+</head>
+<body>
+
+    <h2>Reverse a String and Check if Palindrome</h2>
+    <input type="text" id="inputString" placeholder="Enter a string">
+    <button onclick="reverseAndCheckPalindrome()">Check</button>
+
+    <p id="reversed"></p>
+    <p id="palindromeResult"></p>
+
+    <script>
+        // Function to reverse a string
+        function reverseString(str) {
+            return str.split('').reverse().join('');
+        }
+
+        // Function to check if a string is a palindrome
+        function isPalindrome(str) {
+            const reversedStr = reverseString(str);
+            return str === reversedStr;
+        }
+
+        // Function to handle the input, reverse it, and check palindrome
+        function reverseAndCheckPalindrome() {
+            const inputString = document.getElementById('inputString').value;
+
+            // Reverse the string
+            const reversedString = reverseString(inputString);
+            document.getElementById('reversed').textContent = `Reversed string: ${reversedString}`;
+
+            // Check if the string is a palindrome
+            const palindromeCheck = isPalindrome(inputString);
+            if (palindromeCheck) {
+                document.getElementById('palindromeResult').textContent = `"${inputString}" is a palindrome!`;
+            } else {
+                document.getElementById('palindromeResult').textContent = `"${inputString}" is not a palindrome.`;
+            }
+        }
+    </script>
+
+</body>
+</html>

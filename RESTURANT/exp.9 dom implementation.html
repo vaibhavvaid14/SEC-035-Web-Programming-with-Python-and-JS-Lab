@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Example</title>
+    <style>
+        #message { font-size: 20px; color: blue; }
+    </style>
+</head>
+<body>
+    <p id="message">Hello, World!</p>
+    <button onclick="changeText()">Click Me</button>
+
+    <script>
+        function changeText() {
+            let msg = document.getElementById("message");
+            msg.innerHTML = "Hello, DOM!";
+            msg.style.color = "red";
+        }
+    </script>
+</body>
+</html>
+

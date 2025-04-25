@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 45%;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px;
+            background-color: #e3e3e3;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        li.done {
+            background-color: #a3d9a5;
+            text-decoration: line-through;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>To-Do List</h2>
+    <ul id="todoList">
+        <!-- To-Do tasks will appear here -->
+    </ul>
+    <input type="text" id="taskInput" placeholder="Add a task" />
+    <button onclick="addTask()">Add Task</button>
+</div>
+
+<div class="container">
+    <h2>Completed Tasks</h2>
+    <ul id="completedList">
+        <!-- Completed tasks will appear here -->
+    </ul>
+</div>
+
+<script>
+    const todoList = document.getElementById("todoList");
+    const completedList = document.getElementById("completedList");
+    const taskInput = document.getElementById("taskInput");
+
+    function addTask() {
+        const taskText = taskInput.value.trim();
+        if (taskText !== "") {
+            const li = document.createElement("li");
+            li.textContent = taskText;
+            li.onclick = () => markAsDone(li);
+            todoList.appendChild(li);
+            taskInput.value = "";
+        }
+    }
+
+    function markAsDone(taskElement) {
+        // Move task to completed list
+        const taskText = taskElement.textContent;
+        taskElement.classList.add("done");
+        taskElement.onclick = () => undoTask(taskElement);
+
+        completedList.appendChild(taskElement);
+    }
+
+    function undoTask(taskElement) {
+        // Move task back to the to-do list
+        taskElement.classList.remove("done");
+        taskElement.onclick = () => markAsDone(taskElement);
+
+        todoList.appendChild(taskElement);
+    }
+</script>
+
+</body>
+</html>

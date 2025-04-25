@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover Background Change with JavaScript</title>
+    <style>
+        /* Button style */
+        .hoverable-button {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            align-content: center;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+    </style>
+</head>
+<body>
+
+    <button class="hoverable-button" id="hoverButton">See the change in me : Hover over me!</button>
+
+    <script>
+        // Get the button element by ID
+        const button = document.getElementById('hoverButton');
+
+        // Function to change the background color on mouseenter
+        function changeBackgroundColor() {
+            button.style.backgroundColor = 'orange'; // Change color to orange
+        }
+
+        // Function to reset the background color on mouseleave
+        function resetBackgroundColor() {
+            button.style.backgroundColor = 'lightblue'; // Reset to original color
+        }
+
+        // Add event listeners for hover effect
+        button.addEventListener('mouseenter', changeBackgroundColor);
+        button.addEventListener('mouseleave', resetBackgroundColor);
+    </script>
+
+</body>
+</html>

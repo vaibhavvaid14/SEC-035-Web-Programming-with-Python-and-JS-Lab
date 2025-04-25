@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Count Character Occurrences</title>
+</head>
+<body>
+
+    <h2>Find the Number of Occurrences of a Character in a String</h2>
+    <input type="text" id="inputString" placeholder="Enter a string">
+    <input type="text" id="charToFind" placeholder="Enter character to find">
+    <button onclick="countCharacterOccurrences()">Count Occurrences</button>
+
+    <h3><p id="result"></p>
+    </h3>
+    <script>
+        // Function to count occurrences of a character in a string
+        function countCharacterOccurrences() {
+            const str = document.getElementById('inputString').value;
+            const char = document.getElementById('charToFind').value;
+
+            // Validate that the character is a single character
+            if (char.length !== 1) {
+                document.getElementById('result').textContent = "Please enter a single character to find.";
+                return;
+            }
+
+            // Count the occurrences of the character
+            let count = 0;
+            for (let i = 0; i < str.length; i++) {
+                if (str[i] === char) {
+                    count++;
+                }
+            }
+
+            // Display the result
+            document.getElementById('result').textContent = `The character '${char}' appears ${count} time(s) in the string.`;
+        }
+    </script>
+
+</body>
+</html>

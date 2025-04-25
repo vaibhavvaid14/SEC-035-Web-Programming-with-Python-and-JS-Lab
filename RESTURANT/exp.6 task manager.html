@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management App with Timer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            color: white;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 400px;
+        }
+
+        h1 {
+            color: #ffeb3b;
+        }
+
+        input, button {
+            padding: 12px;
+            margin: 10px 0;
+            width: 80%;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            background-color: #ffeb3b;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ffcc00;
+        }
+
+        #taskList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #taskList li {
+            background-color: #444;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #taskList li span {
+            flex-grow: 1;
+        }
+
+        footer {
+            margin-top: 20px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .timer {
+            color: red;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Task Management App</h1>
+        <input type="text" id="taskInput" placeholder="Enter your task here..." />
+        <input type="number" id="timerInput" placeholder="Enter countdown time (seconds)" min="1"/>
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
+        <p id="message"></p>
+        <button onclick="clearAllTasks()">Clear All Tasks</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Task Management App with Timer. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Array to hold tasks with expiration times and IDs
+        let tasks = [];
+
+        // Function to add a task to the list
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const timerInput = document.getElementById('timerInput');
+            const taskText = taskInput.value.trim();
+            const timerValue = parseInt(timerInput.value);
+
+            if (taskText !== "" && !isNaN(timerValue) && timerValue > 0) {
+                // Create a task with a timer
+                const task = {
+                    text: taskText,
+                    timer: timerValue, // Expiration timer for the task
+                    id: tasks.length // Unique task ID
+                };
+                tasks.push(task); // Add task to the array
+                taskInput.value = ''; // Clear the task input field
+                timerInput.value = ''; // Clear the timer input field
+                displayTasks(); // Refresh the task list
+                startTimer(task.id, timerValue); // Start the countdown for the task
+            } else {
+                alert("Please enter a valid task and timer.");
+            }
+        }
+
+        // Function to display tasks
+        function displayTasks() {
+            const taskList = document.getElementById('taskList');
+            const message = document.getElementById('message');
+
+            // Clear the current list before adding new items
+            taskList.innerHTML = "";
+
+            // Check if the task list is empty
+            if (tasks.length === 0) {
+                message.textContent = "No tasks to display!";
+            } else {
+                message.textContent = ""; // Clear message if tasks exist
+            }
+
+            // Loop through the tasks array and display each task
+            for (let i = 0; i < tasks.length; i++) {
+                const task = tasks[i];
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${task.text} </span>
+                    <span class="timer" id="timer-${task.id}">${task.timer} seconds left</span>
+                    <button onclick="deleteTask(${i})">Delete</button>
+                `;
+                taskList.appendChild(li);
+            }
+        }
+
+        // Function to delete a task
+        function deleteTask(index) {
+            tasks.splice(index, 1); // Remove the task from the array
+            displayTasks(); // Refresh the task list after deletion
+        }
+
+        // Function to clear all tasks
+        function clearAllTasks() {
+            tasks = [];
+            displayTasks();
+        }
+
+        // Timer function to update the countdown for each task
+        function startTimer(taskId, timerValue) {
+            let timeLeft = timerValue;
+            const timerElement = document.getElementById(`timer-${taskId}`);
+
+            const timerInterval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    timerElement.textContent = `${timeLeft} seconds left`;
+                } else {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = "Expired!";
+                    timerElement.style.color = "gray";
+                }
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>

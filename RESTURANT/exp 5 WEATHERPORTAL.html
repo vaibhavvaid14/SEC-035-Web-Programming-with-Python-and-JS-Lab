@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #00b7ff, #005f73);
+            color: white;
+            text-align: center;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #2d3e50;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-container h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .weather-info {
+            font-size: 24px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .weather-info p {
+            margin: 10px 0;
+        }
+
+        .weather-info .temperature {
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .weather-info .condition {
+            font-size: 24px;
+            color: #ff9800;
+        }
+
+        .search-container {
+            margin-top: 30px;
+        }
+
+        .search-container select, .search-container button {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 8px;
+            border: none;
+            margin-right: 10px;
+        }
+
+        .search-container button {
+            background-color: #72765b;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #575757;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2d3e50;
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        footer .social-icons {
+            margin-top: 10px;
+        }
+
+        footer .social-icons i {
+            margin: 0 15px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        footer .social-icons i:hover {
+            color: #3b5998;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">Weather Portal</div>
+        <div>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <h2>Get the Latest Weather Information</h2>
+
+        <!-- City Selection and Search Section -->
+        <div class="search-container">
+            <select id="citySelect">
+                <option value="New Delhi">New Delhi</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Hyderabad">Hyderabad</option>
+            </select>
+            <button onclick="getWeather()">Get Weather</button>
+        </div>
+
+        <!-- Weather Information -->
+        <div class="weather-info" id="weather-info">
+            <p>Loading weather data...</p>
+        </div>
+        
+        <!-- Weather Season Information -->
+        <div class="season-info">
+            <p id="season-info"></p>
+        </div>
+        
+        <!-- 5 Day Weather Forecast -->
+        <div id="forecast" class="forecast">
+            <h3>5-Day Forecast:</h3>
+            <div id="forecast-details"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Weather Portal</p>
+        <div class="social-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-instagram"></i>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const apiKey = 'YOUR_API_KEY';  // Replace with your own API key from OpenWeather
+        const cities = ['New Delhi', 'Mumbai', 'Kolkata', 'Chennai', 'Bangalore', 'Hyderabad'];
+
+        // Default weather for cities
+        const defaultCity = 'New Delhi';
+        window.onload = function() {
+            getWeatherForCity(defaultCity);
+        };
+
+        async function getWeather() {
+            const city = document.getElementById('citySelect').value;
+            getWeatherForCity(city);
+        }
+
+        async function getWeatherForCity(city) {
+            const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+            const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
+            try {
+                // Fetch current weather data
+                const response = await fetch(currentWeatherUrl);
+                const data = await response.json();
+                
+                // Fetch 5-day weather forecast
+                const forecastResponse = await fetch(forecastUrl);
+                const forecastData = await forecastResponse.json();
+
+                if (data.cod === 200) {
+                    const weatherInfo = `
+                        <p><strong>City:</strong> ${data.name}</p>
+                        <p class="temperature">${data.main.temp}°C</p>
+                        <p class="condition">${data.weather[0].description}</p>
+                        <p><strong>Humidity:</strong> ${data.main.humidity}%</p>
+                        <p><strong>Wind Speed:</strong> ${data.wind.speed} m/s</p>
+                    `;
+                    document.getElementById('weather-info').innerHTML = weatherInfo;
+
+                    // Display the weather season information
+                    let seasonInfo = "The weather season is typically determined by temperature and geographic location. ";
+                    if (data.main.temp > 30) {
+                        seasonInfo += "It's likely summer or a warm season in this region.";
+                    } else if (data.main.temp < 0) {
+                        seasonInfo += "It's winter or a cold season in this region.";
+                    } else {
+                        seasonInfo += "The region is experiencing mild or spring-like weather.";
+                    }
+                    document.getElementById('season-info').innerHTML = seasonInfo;
+
+                    // Display the 5-day forecast
+                    let forecastHtml = '';
+                    for (let i = 0; i < 5; i++) {
+                        const forecast = forecastData.list[i * 8]; // Take the forecast for each day
+                        forecastHtml += `
+                            <div class="forecast-day">
+                                <p><strong>${forecast.dt_txt.split(' ')[0]}</strong></p>
+                                <p>${forecast.main.temp}°C, ${forecast.weather[0].description}</p>
+                            </div>
+                        `;
+                    }
+                    document.getElementById('forecast-details').innerHTML = forecastHtml;
+                } else {
+                    document.getElementById('weather-info').innerHTML = `<p>City not found. Please try again.</p>`;
+                }
+            } catch (error) {
+                document.getElementById('weather-info').innerHTML = `<p>Failed to fetch data. Please try again later.</p>`;
+            }
+        }
+    </script>
+
+</body>
+</html>
